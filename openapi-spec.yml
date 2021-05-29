@@ -101,83 +101,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /vendors:
-        get:
-            summary: 'Retrieve all active and in-active vendors'
-            description: A list of vendors
-            operationId: findAll
-            tags:
-                - Vendors
-            responses:
-                '200':
-                    description: 'Vendors retrieved successfully'
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                $ref: '#/components/schemas/Vendors'
-                default:
-                    description: Unexpected error
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Error'
-    /vendors/{id}:
-        get:
-            summary: Retrieve vendor by id
-            description: Vendor by unique id
-            operationId: findById
-            tags:
-                - Vendors
-            parameters:
-                - in: path
-                  name: id
-                  schema:
-                        type: string
-                  required: true
-                  description: unique id of vendor
-            responses:
-                '200':
-                    description: 'Vendor retrieved successfully'
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                $ref: '#/components/schemas/Vendor'
-                default:
-                    description: Unexpected error
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Error'
-    /vendors/{id}/subscribers:
-        get:
-            summary: Retrieve vendor subscribers by id
-            description: Vendor by unique id
-            operationId: findSubscribersById
-            tags:
-                - Vendors
-            parameters:
-                - in: path
-                  name: id
-                  schema:
-                        type: string
-                  required: true
-                  description: unique id of vendor
-            responses:
-                '200':
-                    description: 'Vendor subscribers retrieved successfully'
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                $ref: '#/components/schemas/Connections'
-                default:
-                    description: Unexpected error
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Users:
@@ -195,24 +118,6 @@ components:
                 type: string
             isActive:
                 type: boolean
-    Groups:
-        type: array
-        items:
-            $ref: '#/components/schemas/Group'
-    Group:
-        type: object
-        required:
-            - id
-        properties:
-            id:
-                type: string
-            name: 
-                type: string
-            createdDate:
-                type: string
-                format: date-time
-            isActive:
-                type: boolean
     Message:
         type: object
         properties:
@@ -224,26 +129,7 @@ components:
                 type: object
             createdDate:
                 type: string
-                format: date-time
-               
-    Vendors:
-        type: array
-        items:
-            $ref: '#/components/schemas/Vendor'
-    Vendor:
-        type: object
-        required:
-            - name
-        properties:
-            id:
-                type: string
-            name:
-                type: string
-            subscribers:
-                type: object
-                $ref: '#/components/schemas/Connections'
-            isActive:
-                type: boolean     
+                format: date-time   
     Error:
         type: object
         required:
