@@ -1,0 +1,150 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Open Text SignUp
+  description: Sign Up functionality by Open Text
+servers:
+  - url: http://{host}:{port}/{basePath}
+    description: 'API Server'
+    variables:
+        host:
+            enum:
+                - localhost
+                - test
+                - stage
+                - prod
+            default: localhost
+            description: Host Name of API Server
+        port:
+            enum:
+                - '8080'
+                - '8443'
+                - '443'
+            default: '8080'
+            description: Port Number of API Server
+        basePath:
+            default: api
+paths:
+    /users:
+        get:
+            summary: 'Retrieve all active and in-active users'
+            description: A list of users
+            operationId: findAll
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: 'Users retrieved successfully'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/Users'
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        post:
+            summary: Add a user
+            description: Add user
+            operationId: createUser
+            tags:
+                - Users
+            requestBody:
+                description: User to be added
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+            responses:
+                '200':
+                    description: 'User created successfully'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/User'
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /users/{id}:
+        get:
+            summary: Retrieve user by id
+            description: User by id
+            operationId: findById
+            tags:
+                - Users
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                        type: string
+                  required: true
+                  description: id of user
+            responses:
+                '200':
+                    description: 'User retrieved successfully'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/User'
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Users:
+        type: array
+        items:
+            $ref: '#/components/schemas/User'
+    User:
+        type: object
+        properties:
+            id:
+                type: string
+            firstName:
+                type: string
+            lastName:
+                type: string
+            isActive:
+                type: boolean
+    Message:
+        type: object
+        properties:
+            senderId:
+                type: string
+            receiverId:
+                type: string
+            body:
+                type: object
+            createdDate:
+                type: string
+                format: date-time     
+    Error:
+        type: object
+        required:
+            - code
+            - message
+        properties:
+            code:
+                type: integer
+                format: int32
+            message:
+                type: string
+  securitySchemes:
+        BearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+security:
+    - bearerAuth: []
