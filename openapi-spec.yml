@@ -129,7 +129,26 @@ components:
                 type: object
             createdDate:
                 type: string
-                format: date-time     
+                format: date-time
+               
+    Vendors:
+        type: array
+        items:
+            $ref: '#/components/schemas/Vendor'
+    Vendor:
+        type: object
+        required:
+            - name
+        properties:
+            id:
+                type: string
+            name:
+                type: string
+            subscribers:
+                type: object
+                $ref: '#/components/schemas/Connections'
+            isActive:
+                type: boolean     
     Error:
         type: object
         required:
